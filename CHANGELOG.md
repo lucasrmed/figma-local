@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## 0.3.0 — 2026-11-03
+
+- Instalação por **Instalar.cmd** no Windows, no perfil do usuário, sem administrador.
+- Captura pela cópia HTML nativa do Windows, preservando UTF-8 e verificação de nova cópia.
+- Registro do leitor no Chrome e Chromium por HKCU, com o mesmo ID da extensão.
+- Descoberta da instalação pelas skills no Mac e Windows.
+- Pacotes separados por sistema, documentação e testes de integração Windows na CI.
+- Captura real no Figma do Windows ainda depende de feedback da beta; a CI usa cópias sintéticas no clipboard real.
+
 ## 0.2.0 — 2026-11-03
 
 Primeira beta pública para macOS.

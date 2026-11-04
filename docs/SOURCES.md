@@ -1,6 +1,6 @@
 # Documentação consultada
 
-Acesso: **03/11/2026**. Runtime de validação: Node.js **23.11.0**, agent-browser **0.27.0**, Chrome for Testing **151**. Decoder MIT derivado de **figma-clipboard-mcp 0.2.0**, preservado em `vendor/figma-clipboard`. Dependências diretas: **fzstd 0.1.1** e **kiwi-schema 0.5.0**, fixadas no lockfile. A extensão exige Chrome 116+; a captura desta versão atende macOS. A distribuição exige Node.js 22+ e recomenda uma versão LTS mantida; o runtime existente de teste não foi atualizado globalmente.
+Acesso: **03/11/2026**. Runtime de validação: Node.js **23.11.0**, agent-browser **0.27.0**, Chrome for Testing **151**. Decoder MIT derivado de **figma-clipboard-mcp 0.2.0**, preservado em `vendor/figma-clipboard`. Dependências diretas: **fzstd 0.1.1** e **kiwi-schema 0.5.0**, fixadas no lockfile. A extensão exige Chrome 116+; a captura 0.3.0 atende macOS e Windows. A distribuição exige Node.js 22+ e recomenda uma versão LTS mantida; o runtime existente de teste não foi atualizado globalmente.
 
 | Fonte de primeira parte | Decisão ou limite apoiado |
 | --- | --- |
@@ -50,3 +50,23 @@ Plataformas desta etapa: Git/GitHub, GitHub CLI 2.102.0, Actions e npm. O protoc
 A auditoria encontrou [GHSA-mrhx-c7xc-m3w5](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) em Zod, trazido pelo pacote do servidor MCP. O produto usa somente três módulos de leitura/estilo desse pacote. Esses arquivos foram preservados sem alterações sob MIT, com origem e hashes registrados, e o servidor/dependências não utilizados foram removidos. Isso evita forçar uma migração major de Zod em uma biblioteca que nem participa da leitura.
 
 Foram consultados os repositórios dos autores: [fzstd](https://github.com/101arrowz/fzstd), 0.1.1, e [Kiwi](https://github.com/evanw/kiwi), pacote kiwi-schema 0.5.0. Mantemos os mesmos decodificadores e interfaces já usados; as consultas reais foram comparadas com a versão anterior.
+
+## Suporte ao Windows — 03/11/2026
+
+Versões: Node.js 22+, Windows PowerShell 5.1 integrado ao Windows, protocolo Native Messaging do Chrome 116+. Não foram adicionadas dependências npm.
+
+| Fonte de primeira parte | Decisão ou limite apoiado |
+| --- | --- |
+| [Chrome Native Messaging](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging) | Registrar o caminho do manifesto no valor padrão HKCU, restringir a origem e encaminhar os argumentos do Chrome. |
+| [Exemplo Windows do Chrome](https://github.com/GoogleChrome/chrome-extensions-samples/tree/main/api-samples/nativeMessaging/host) | Launcher batch com stdout reservado ao protocolo. |
+| [Microsoft: CF_HTML](https://learn.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format) | Solicitar `HTML Format` e interpretar os bytes como UTF-8, preservando cabeçalho, comentários e conteúdo. |
+| [Microsoft: OpenClipboard](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-openclipboard), [GetClipboardData](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipboarddata) | Repetir brevemente se ocupado, ler só durante uma captura solicitada, copiar os bytes antes de fechar e tratar o conteúdo como não confiável. |
+| [Microsoft: GlobalLock](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globallock), [GlobalSize](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-globalsize) | Limitar a cópia a 128 MiB, liberar o bloqueio e não liberar o handle pertencente ao clipboard. |
+| [Microsoft: sequência do clipboard](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getclipboardsequencenumber) | Detectar mudança após o ticket de captura; recusar uma sessão sem acesso ao clipboard. |
+| [Microsoft: PowerShell 5.1](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1) | Iniciar sem perfil, usar código local fixo codificado em UTF-16LE e manter pipes UTF-8. Nenhuma mudança global de política de execução. |
+| [Microsoft: reg add](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/reg-add) | Registrar somente no usuário atual, sem HKLM ou administrador. |
+| [Node 22: processos](https://nodejs.org/docs/latest-v22.x/api/child_process.html) | Executar npm pelo seu arquivo JS no Windows; `.cmd` não é alvo direto de execFile. Encaminhar argumentos sem interpolar links ou dados do clipboard no shell. |
+| [Node 22: plataformas](https://github.com/nodejs/node/blob/v22.x/BUILDING.md) | Usar Node nativo do Windows; requisitos e suporte dependem da versão do Node e do sistema. |
+| [GitHub: runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) | Testar instalação, atualização, clipboard e protocolo reais em VMs Windows descartáveis com dados sintéticos. O teste não equivale a login/captura visual do Figma no Windows. |
+
+Escolhas locais: usar LocalAppData para leitor/cache, preservar skills em `.codex/skills`, reaproveitar o ID da extensão e oferecer ZIP separado por sistema. Windows x64 é o alvo da CI. Windows ARM, WSL e Linux não foram validados para captura.

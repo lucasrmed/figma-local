@@ -13,7 +13,9 @@ A captura substitui o conteúdo da área de transferência. O leitor não solici
 
 ## Onde ficam os dados
 
-Na instalação padrão, os dados ficam em `~/Library/Application Support/FigmaLocal/cache`, no perfil do usuário. Consultas diretas sem instalação podem usar `.cache` na raiz do leitor. Esses locais são privados ao computador e ficam fora do pacote publicado. Não são uma cópia de segurança nem uma sincronização com o Figma.
+Na instalação padrão, os dados ficam em `%LOCALAPPDATA%\FigmaLocal\cache` no Windows ou `~/Library/Application Support/FigmaLocal/cache` no Mac, no perfil do usuário. Consultas diretas sem instalação podem usar `.cache` na raiz do leitor. Esses locais são privados ao computador e ficam fora do pacote publicado. Não são uma cópia de segurança nem uma sincronização com o Figma.
+
+No Mac, os arquivos usam permissões restritas; no Windows, herdam as permissões do perfil do usuário. O cache não tem criptografia própria.
 
 A extensão mantém informação da captura atual na memória da sessão do Chrome. O leitor responde às consultas localmente pela comunicação nativa, sem abrir um servidor HTTP.
 

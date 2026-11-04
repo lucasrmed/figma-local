@@ -9,14 +9,14 @@ body:
     id: version
     attributes:
       label: Versão do Figma Local
-      placeholder: "0.2.0"
+      placeholder: "0.3.0"
     validations:
       required: true
   - type: textarea
     id: environment
     attributes:
       label: Ambiente / environment
-      description: "Informe macOS, Chrome, Node.js e como instalou."
+      description: "Informe Windows/macOS, Chrome, Node.js e como instalou."
     validations:
       required: true
   - type: textarea

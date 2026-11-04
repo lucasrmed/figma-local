@@ -6,9 +6,9 @@
 
 [![CI](https://github.com/lucasrmed/figma-local/actions/workflows/ci.yml/badge.svg)](https://github.com/lucasrmed/figma-local/actions/workflows/ci.yml)
 [![MIT](https://img.shields.io/badge/license-MIT-176b4f)](LICENSE)
-[![macOS beta](https://img.shields.io/badge/macOS-beta-176b4f)](https://github.com/lucasrmed/figma-local/releases/tag/v0.2.0)
+[![macOS e Windows beta](https://img.shields.io/badge/macOS%20%2B%20Windows-beta-176b4f)](https://github.com/lucasrmed/figma-local/releases/tag/v0.3.0)
 
-[English](README.en.md) · [Baixar a beta](https://github.com/lucasrmed/figma-local/releases/download/v0.2.0/figma-local-macos-0.2.0.zip) · [Instalação detalhada](docs/INSTALL.md) · [Reportar problema](https://github.com/lucasrmed/figma-local/issues/new/choose)
+[English](README.en.md) · [Baixar para Windows](https://github.com/lucasrmed/figma-local/releases/download/v0.3.0/figma-local-windows-0.3.0.zip) · [Baixar para Mac](https://github.com/lucasrmed/figma-local/releases/download/v0.3.0/figma-local-macos-0.3.0.zip) · [Instalação detalhada](docs/INSTALL.md) · [Reportar problema](https://github.com/lucasrmed/figma-local/issues/new/choose)
 
 Capture uma seleção ou página uma vez. Depois consulte um catálogo de frames, resumos, textos e detalhes pontuais pelo cache local. O agente recebe apenas o que precisa para a tarefa.
 
@@ -21,22 +21,23 @@ A captura usa a ação normal **Copiar**, no Figma aberto com a sua conta. O lei
 | Extensão Chrome | Captura, busca telas, seleciona frames e prepara um pedido com links para o Codex. |
 | Leitor local | Decodifica a cópia, mantém o índice e responde com limites e paginação. |
 | Skill `figma-local` | Consulta o cache por arquivo e `node-id`, começando pelos resumos. |
-| Skill `figma-local-setup` | Instala e verifica a configuração no Mac. |
+| Skill `figma-local-setup` | Instala e verifica a configuração no Mac ou Windows. |
 
 A skill também funciona sem carregar a extensão: você pode copiar no Figma e importar pelo leitor. Agent-browser é opcional.
 
 ## Instalar em poucos passos
 
-Requisitos: **macOS**, **Chrome 116+**, uma [versão LTS mantida do Node.js](https://nodejs.org/en/download), **22 ou posterior**, e acesso ao arquivo do Figma. Para usar as skills, tenha o Codex instalado. A primeira instalação precisa de internet para baixar as dependências.
+Requisitos: **Windows ou macOS**, **Chrome 116+**, uma [versão LTS mantida do Node.js](https://nodejs.org/en/download), **22 ou posterior**, e acesso ao arquivo do Figma. Para usar as skills, tenha o Codex instalado. A primeira instalação precisa de internet para baixar as dependências.
 
-1. [Baixe `figma-local-macos-0.2.0.zip`](https://github.com/lucasrmed/figma-local/releases/download/v0.2.0/figma-local-macos-0.2.0.zip) e descompacte.
-2. Na pasta **FigmaLocal**, abra **Instalar.command**. O instalador prepara o leitor e as duas skills e abre um guia.
+1. Baixe o ZIP para [Windows](https://github.com/lucasrmed/figma-local/releases/download/v0.3.0/figma-local-windows-0.3.0.zip) ou [Mac](https://github.com/lucasrmed/figma-local/releases/download/v0.3.0/figma-local-macos-0.3.0.zip) e descompacte tudo.
+2. Na pasta **FigmaLocal**, abra **Instalar.cmd** no Windows ou **Instalar.command** no Mac. O instalador prepara o leitor e as duas skills no seu usuário, sem administrador, e abre um guia.
 3. No Chrome, abra `chrome://extensions`, ative **Modo do desenvolvedor** e escolha **Carregar sem compactação**.
-4. Selecione a pasta indicada pelo guia. Pelo Finder → **Ir → Ir para a pasta**, ela é:
+4. Selecione a pasta **instalada**, indicada pelo guia:
 
-   ```text
-   ~/Library/Application Support/FigmaLocal/app/extension
-   ```
+   | Sistema | Pasta da extensão |
+   | --- | --- |
+   | Windows | `%LOCALAPPDATA%\FigmaLocal\app\extension` |
+   | Mac | `~/Library/Application Support/FigmaLocal/app/extension` |
 
 5. Abra seu arquivo do Figma no Chrome e faça login. Pelo menu de extensões, abra **Figma Local** e confira **Leitor conectado**.
 6. Escolha **Capturar seleção** ou **Capturar página** e confirme no botão que aparece dentro do Figma.
@@ -87,7 +88,7 @@ Em um teste local, uma página produziu **191 frames candidatos**. O índice de 
 - O formato da cópia é interno ao Figma e pode mudar. Interiores de componentes de bibliotecas, imagens, interações e medidas calculadas podem estar ausentes. Frames candidatos podem incluir anotações.
 - As permissões do arquivo continuam valendo. A ferramenta não contorna bloqueios de cópia e não altera o design.
 - A operação Copiar substitui a área de transferência. Regras do seu workspace que exigem validação via MCP continuam valendo.
-- Windows/Linux para captura, atualização automática e publicação em loja ainda não fazem parte desta versão.
+- Captura no Linux, atualização automática e publicação em loja ainda não fazem parte desta versão.
 
 [Privacidade](PRIVACY.md) · [Segurança](SECURITY.md) · [Arquitetura](docs/ARCHITECTURE.md)
 
@@ -115,7 +116,7 @@ node reader.mjs summary 'LINK_DO_FRAME' --max-chars 6000
 
 Se o projeto ajudar você, clique em **Star ⭐** no topo do repositório. Para criar sua versão ou propor melhorias, faça um [fork](https://github.com/lucasrmed/figma-local/fork) e siga o [guia de contribuição](CONTRIBUTING.md). Sugestões e relatos de bugs são bem-vindos em português ou inglês.
 
-Boas contribuições iniciais: melhorar a instalação, adicionar exemplos públicos, reproduzir problemas de captura com arquivos de teste e trabalhar no suporte a outros sistemas. Consulte o [roadmap](docs/ROADMAP.md) antes de começar mudanças maiores.
+Boas contribuições iniciais: melhorar a instalação, adicionar exemplos públicos, reproduzir problemas de captura com arquivos de teste e testar a beta em outros computadores. Consulte o [roadmap](docs/ROADMAP.md) antes de começar mudanças maiores.
 
 ```bash
 npm ci --ignore-scripts

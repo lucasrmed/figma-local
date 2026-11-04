@@ -4,19 +4,20 @@
 
 **Read many Figma screens with compact context.** A Chrome extension, local reader and Codex skills.
 
-[Português](README.md) · [Download macOS beta](https://github.com/lucasrmed/figma-local/releases/download/v0.2.0/figma-local-macos-0.2.0.zip) · [Installation guide](docs/INSTALL.md) · [Report a bug](https://github.com/lucasrmed/figma-local/issues/new/choose)
+[Português](README.md) · [Windows download](https://github.com/lucasrmed/figma-local/releases/download/v0.3.0/figma-local-windows-0.3.0.zip) · [Mac download](https://github.com/lucasrmed/figma-local/releases/download/v0.3.0/figma-local-macos-0.3.0.zip) · [Installation guide](docs/INSTALL.md) · [Report a bug](https://github.com/lucasrmed/figma-local/issues/new/choose)
 
 Copy a selection or page once, then query a local frame catalog, summaries and specific details. The reader uses Figma's normal **Copy** action and does not call the official Figma MCP or REST API. This is an independent project, not affiliated with Figma or OpenAI.
 
 ## Install
 
-You need **macOS**, **Chrome 116+**, a [maintained Node.js LTS release](https://nodejs.org/en/download) **22 or newer**, and access to the Figma file. Codex is required to use the bundled skills. Installation downloads npm dependencies.
+You need **Windows or macOS**, **Chrome 116+**, a [maintained Node.js LTS release](https://nodejs.org/en/download) **22 or newer**, and access to the Figma file. Codex is required to use the bundled skills. Installation downloads npm dependencies.
 
-1. [Download the beta ZIP](https://github.com/lucasrmed/figma-local/releases/download/v0.2.0/figma-local-macos-0.2.0.zip), extract it and open **Instalar.command** inside **FigmaLocal**.
+1. [Download the beta for your OS](https://github.com/lucasrmed/figma-local/releases/tag/v0.3.0), extract all files and open **Instalar.cmd** (Windows) or **Instalar.command** (Mac) inside **FigmaLocal**. No administrator access is needed.
 2. Follow the generated guide. In Chrome, open `chrome://extensions`, enable **Developer mode**, choose **Load unpacked**, and select:
 
    ```text
-   ~/Library/Application Support/FigmaLocal/app/extension
+   Windows: %LOCALAPPDATA%\FigmaLocal\app\extension
+   Mac: ~/Library/Application Support/FigmaLocal/app/extension
    ```
 
 3. Open your Figma file in Chrome and sign in. Open **Figma Local** from the extensions menu and check **Leitor conectado** (reader connected).
@@ -40,7 +41,7 @@ Local capture and indexing make no model calls. Agent queries still use your mod
 
 Captures stay on your computer, and the reader has no remote server or telemetry. Data requested by a skill enters your model's context. Never attach private captures, browser profiles or credentials to public issues.
 
-Captures are snapshots, not live validation. The clipboard format is internal to Figma and may change. Remote component interiors, images, prototype interactions and computed measurements may be missing. Figma's file permissions remain in effect. Copy replaces your clipboard. Windows/Linux capture is not implemented in this release.
+Captures are snapshots, not live validation. The clipboard format is internal to Figma and may change. Remote component interiors, images, prototype interactions and computed measurements may be missing. Figma's file permissions remain in effect. Copy replaces your clipboard. Linux capture is not implemented. Windows requires native Windows Node.js and Windows PowerShell 5.1; do not install the reader through WSL. Automated Windows tests cover the real clipboard and native protocol with synthetic data; a live Figma capture on Windows still needs beta feedback.
 
 [Privacy](PRIVACY.md) · [Security](SECURITY.md) · [Validation](docs/VALIDATION.md)
 

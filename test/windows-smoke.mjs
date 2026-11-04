@@ -73,7 +73,7 @@ try {
   console.log(JSON.stringify({ windows: true, installAndUpdate: true, registryHKCU: true, unicodeClipboard: true, freshness: true, batchNativeProtocol: true, skills: true }));
 } finally {
   host?.stdin.end(); host?.kill(); closeClipboard();
-  for (const key of windowsRegistryKeys(HOST_NAME)) execFileSync('reg.exe', ['delete', key, '/f'], { stdio: 'ignore' });
+  for (const key of windowsRegistryKeys(HOST_NAME)) { try { execFileSync('reg.exe', ['delete', key, '/f'], { stdio: 'ignore' }); } catch {} }
   // Windows can keep launcher/Node files open briefly after stdin closes.
   for (let i = 0; i < 20; i++) { try { rmSync(temp, { recursive: true, force: true }); break; } catch { await new Promise(r => setTimeout(r, 200)); } }
 }
