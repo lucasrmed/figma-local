@@ -8,11 +8,12 @@ import { clipboardFixture } from './fixture.mjs';
 import { createService } from '../native/api.mjs';
 import { encodeMessage, serveNative } from '../native/protocol.mjs';
 
-test('captura nativa verifica arquivo, seleção, nova cópia e ticket de uso único', async t => {
+for (const platform of ['darwin', 'win32']) test(`captura ${platform} verifica arquivo, seleção, nova cópia e ticket de uso único`, async t => {
   const cacheDir = mkdtempSync(join(tmpdir(), 'figma-local-test-'));
   t.after(() => rmSync(cacheDir, { recursive: true, force: true }));
   let counter = 1, html = clipboardFixture().html;
-  const handle = createService({ cacheDir, platform: 'darwin', readClipboard: () => html, changeCount: () => counter });
+  const handle = createService({ cacheDir, platform, readClipboard: async () => html, changeCount: async () => counter });
+  assert.equal((await handle('ping')).captureSupported, true);
   const params = { url: 'https://www.figma.com/design/TESTFILE/?node-id=1-1', scope: 'selection', expectedCount: 1, selectedIds: ['1:1'] };
   const ticket = await handle('prepare_capture', params);
   setTimeout(() => { counter++; }, 30);

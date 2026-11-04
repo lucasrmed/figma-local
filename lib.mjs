@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { execFileSync } from 'node:child_process';
+export { clipboardHtml } from './native/clipboard.mjs';
 import { mkdirSync, readFileSync, readdirSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { parseFigBuffer } from './vendor/figma-clipboard/figparse.js';
@@ -32,15 +32,6 @@ export function unpackClipboard(html, expectedFileKey) {
   const meta = JSON.parse(Buffer.from(meta64, 'base64').toString('utf8'));
   if (meta.fileKey !== expectedFileKey) throw Error('A cópia pertence a outro arquivo. Nada foi importado.');
   return { meta, buffer: Buffer.from(data64, 'base64') };
-}
-
-export function clipboardHtml() {
-  if (process.platform !== 'darwin') throw Error('A captura da área de transferência foi validada apenas no macOS.');
-  const raw = execFileSync('osascript', ['-e', 'the clipboard as «class HTML»'], {
-    encoding: 'utf8', maxBuffer: 128 * 1024 * 1024, timeout: 10000,
-    stdio: ['ignore', 'pipe', 'pipe'],
-  }).trim();
-  return Buffer.from(raw.replace(/^«data \w{4}/, '').replace(/»$/, ''), 'hex').toString('utf8');
 }
 
 export function sceneOf(buffer, meta) {

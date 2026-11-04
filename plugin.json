@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "figma-local",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Leia capturas locais do Figma por frame, se\u00e7\u00e3o ou p\u00e1gina com contexto compacto.",
   "extensions": {
     "com.openai": {

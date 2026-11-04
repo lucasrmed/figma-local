@@ -14,6 +14,6 @@ test('distribuição exclui cache, credenciais e dependências e rejeita symlink
   mkdirSync(join(root, '.cache')); writeFileSync(join(root, '.cache', 'capture'), 'PRIVATE_TEST_DATA');
   mkdirSync(join(root, 'node_modules')); writeFileSync(join(root, 'node_modules', 'dependency'), 'dependency');
   assert.deepEqual(packageFiles(root), ['README.md']);
-  symlinkSync(join(root, '.env'), join(root, 'docs', 'outside-file'));
+  symlinkSync(join(root, '.cache'), join(root, 'docs', 'outside-dir'), process.platform === 'win32' ? 'junction' : 'dir');
   assert.throws(() => packageFiles(root), /simbólicos/);
 });

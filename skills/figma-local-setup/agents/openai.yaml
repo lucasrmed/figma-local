@@ -1,4 +1,4 @@
 interface:
   display_name: "Configurar Figma Local"
-  short_description: "Instale leitor, extensão e skill no seu Mac"
-  default_prompt: "Use $figma-local-setup para instalar ou verificar o Figma Local neste Mac."
+  short_description: "Instale leitor, extensão e skill no Mac ou Windows"
+  default_prompt: "Use $figma-local-setup para instalar ou verificar o Figma Local neste computador."

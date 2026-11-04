@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
-const base = process.platform === 'darwin' ? join(homedir(), 'Library', 'Application Support', 'FigmaLocal') : join(homedir(), '.local', 'share', 'figma-local');
+const base = process.platform === 'darwin' ? join(homedir(), 'Library', 'Application Support', 'FigmaLocal') : process.platform === 'win32' ? join(process.env.LOCALAPPDATA || join(homedir(), 'AppData', 'Local'), 'FigmaLocal') : join(homedir(), '.local', 'share', 'figma-local');
 let install;
 try { install = JSON.parse(readFileSync(process.env.FIGMA_LOCAL_CONFIG || join(base, 'install.json'), 'utf8')); } catch {}
 const bundled = fileURLToPath(new URL('../../../reader.mjs', import.meta.url));

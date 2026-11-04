@@ -39,13 +39,13 @@ try {
       }
       if (scope === 'page') {
         browser('focus', '[role="application"]');
-        browser('press', 'Meta+a');
+        browser('press', process.platform === 'darwin' ? 'Meta+a' : 'Control+a');
         browserUrl = evaluate('location.href');
       }
       evaluate(`(async()=>{const e=[...document.querySelectorAll('[data-fpl-selected-root=true]')].find(x=>{const r=x.getBoundingClientRect();return r.height>0&&r.top>100&&r.bottom<innerHeight});if(!e)throw Error('Selecione as telas no painel de camadas e tente novamente.');const r=e.getBoundingClientRect();e.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,button:2,clientX:Math.max(60,r.x+100),clientY:r.y+r.height/2}));const deadline=performance.now()+2000;let copy;do{copy=[...document.querySelectorAll('[role=menuitem]')].find(x=>['Copiar','Copy'].includes(x.innerText.trim().split(/\\s/)[0]));if(copy)break;await new Promise(r=>setTimeout(r,30))}while(performance.now()<deadline);if(!copy||copy.getAttribute('aria-disabled')==='true')throw Error('Copiar indisponível. Verifique a permissão do arquivo.');copy.setAttribute('data-figma-reader-copy','true');return true})()`);
       browser('click', '[data-figma-reader-copy=true]');
     }
-    const data = unpackClipboard(clipboardHtml(), target.fileKey);
+    const data = unpackClipboard(await clipboardHtml(), target.fileKey);
     const info = saveCapture(cacheDir, data, { scope, requestedUrl: target.url, browserUrl });
     console.log(JSON.stringify({ ...info, totalMs: Math.round(performance.now() - begin), live: false }));
   } else if (['index', 'summary', 'tree', 'node', 'components'].includes(command)) {

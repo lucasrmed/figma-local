@@ -1,11 +1,11 @@
 ---
 name: figma-local-setup
-description: "Instale, verifique ou repare a configuração do Figma Local no Mac: leitor, extensão Chrome e skill de consulta. Use quando o usuário pedir a instalação ou a configuração deste pacote."
+description: "Instale, verifique ou repare a configuração do Figma Local no Mac ou Windows: leitor, extensão Chrome e skill de consulta. Use quando o usuário pedir a instalação ou a configuração deste pacote."
 ---
 
 # Configurar Figma Local
 
-Esta versão atende macOS com Node.js 22 ou posterior; recomende uma versão LTS mantida. A invocação para instalar autoriza a configuração local necessária; publicação nas lojas e alterações no Figma são etapas separadas.
+Esta versão atende macOS e Windows com Node.js 22 ou posterior; recomende uma versão LTS mantida. A invocação para instalar autoriza a configuração local necessária; publicação nas lojas e alterações no Figma são etapas separadas.
 
 Execute `node scripts/setup.mjs` relativo à pasta desta skill. O script encontra o pacote e roda o instalador. Ele preserva o cache do usuário, registra a comunicação nativa com Chrome/Chrome for Testing e instala as duas skills. Não sobrescreve skills ou instalações sem o marcador de propriedade Figma Local.
 

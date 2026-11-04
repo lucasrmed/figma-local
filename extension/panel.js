@@ -34,7 +34,7 @@ async function loadFiles(preferredKey) {
   await loadIndex();
 }
 async function connect() {
-  try { const result = await rpc('ping'); $('connection').textContent = 'Leitor conectado'; $('connection').classList.remove('off'); status(result.captureSupported ? 'Pronto para capturar ou consultar.' : 'Consultas disponíveis; a captura desta versão usa macOS.'); await loadFiles(); }
+  try { const result = await rpc('ping'); $('connection').textContent = 'Leitor conectado'; $('connection').classList.remove('off'); status(result.captureSupported ? 'Pronto para capturar ou consultar.' : 'Consultas disponíveis; a captura está disponível no Mac e Windows.'); await loadFiles(); }
   catch (error) { $('connection').textContent = 'Desconectado'; $('connection').classList.add('off'); status(error.message, true); }
   try { $('source-url').value = (await rpc('context')).url; } catch {}
 }

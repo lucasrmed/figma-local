@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Figma Local",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Capture telas do Figma e consulte um índice local com contexto compacto para o Codex.",
   "minimum_chrome_version": "116",
   "permissions": [
