@@ -1,0 +1,37 @@
+{
+  "name": "figma-local-toolkit",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "package": "node scripts/package.mjs",
+    "check": "node scripts/check.mjs",
+    "verify-package": "node scripts/verify-package.mjs"
+  },
+  "dependencies": {
+    "figma-clipboard-mcp": "0.2.0"
+  },
+  "description": "Read many Figma screens through local clipboard captures, a Chrome extension and Codex skills.",
+  "license": "MIT",
+  "author": "Lucas Medeiros (https://github.com/lucasrmed)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucasrmed/figma-local.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasrmed/figma-local/issues"
+  },
+  "homepage": "https://github.com/lucasrmed/figma-local#readme",
+  "keywords": [
+    "figma",
+    "chrome-extension",
+    "codex",
+    "skills",
+    "local-first",
+    "design-to-code"
+  ]
+}

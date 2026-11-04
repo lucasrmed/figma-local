@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Instalação e problemas comuns / setup guide
+    url: https://github.com/lucasrmed/figma-local/blob/main/docs/INSTALL.md
+    about: Confira o guia antes de abrir um relato.
+  - name: Relato privado de segurança / private security report
+    url: https://github.com/lucasrmed/figma-local/security/advisories/new
+    about: Não publique detalhes de vulnerabilidades em uma issue aberta.

@@ -1,0 +1,37 @@
+name: Bug / problema
+description: Relate um problema reproduzível com instalação, captura ou consulta.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Use exemplos públicos ou sintéticos. Não envie capturas privadas, perfis, cookies ou credenciais. PT/EN welcome."
+  - type: input
+    id: version
+    attributes:
+      label: Versão do Figma Local
+      placeholder: "0.2.0"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Ambiente / environment
+      description: "Informe macOS, Chrome, Node.js e como instalou."
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir / reproduction steps
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado e observado / expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: message
+    attributes:
+      label: Mensagem de erro sem dados privados / sanitized error

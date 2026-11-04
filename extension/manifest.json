@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Figma Local",
+  "version": "0.2.0",
+  "description": "Capture telas do Figma e consulte um índice local com contexto compacto para o Codex.",
+  "minimum_chrome_version": "116",
+  "permissions": [
+    "sidePanel",
+    "nativeMessaging",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://www.figma.com/*",
+    "https://figma.com/*"
+  ],
+  "background": {
+    "service_worker": "worker.js",
+    "type": "module"
+  },
+  "side_panel": {
+    "default_path": "panel.html"
+  },
+  "action": {
+    "default_title": "Abrir Figma Local"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none';"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgYCd1759tgZXHAC0qVSPWPd8//zV55s3+e2qTGvPUNEx3FI8JyItVc0LtRxOtLCDIDnWRYzbZ9UWjg6jSVEjz44YulsC0mYnKK1lBG/dxiFAvWvqPFAOji4xLR6OBgKKc78aNURpfk34Jfv6XpC2+FySKXF1VHceeKkBUMlwlp0oDjdWCwQiy5VejBrrUd7Eqt9da+tDFAiSRtIAYPyvQ+IEPYj+E2dgSxdbyrTXvhr/h0mForJPaw4gX1RGr5oXGtJsakYN32IFySkv9i4HqaPZyA+BEmX1QGGNqgsnjxw0u61qT/p9fuFyHiuTiW9m1qze/KiHjH9ig+tIluXxKQIDAQAB"
+}

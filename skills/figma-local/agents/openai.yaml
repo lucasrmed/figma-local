@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma Local"
+  short_description: "Leia capturas do Figma com pouco contexto"
+  default_prompt: "Use $figma-local para consultar as telas dos links nas capturas locais."

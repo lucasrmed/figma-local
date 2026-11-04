@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Figma Local</title><link rel="stylesheet" href="panel.css"></head>
+<body>
+  <header><div class="brand"><span class="mark" aria-hidden="true">FL</span><div><h1>Figma Local</h1><p>As telas certas. Contexto compacto.</p></div></div><span id="connection" class="badge">Conectando</span></header>
+  <main>
+    <section class="capture"><div class="section-title"><h2>Trazer telas do Figma</h2><span class="eyebrow">CAPTURA LOCAL</span></div><p>Abra o arquivo no Figma e escolha o que deseja consultar.</p><div class="actions"><button id="capture-selection" class="primary">Capturar seleção</button><button id="capture-page">Capturar página</button></div>
+      <details><summary>Já copiei no Figma</summary><label for="source-url">Link do arquivo de origem</label><input id="source-url" type="url" placeholder="https://www.figma.com/design/…"><button id="import-manual">Importar cópia manual</button></details>
+    </section>
+    <p id="status" role="status" aria-live="polite">Conectando ao leitor…</p>
+    <section><div class="section-title"><h2>Suas capturas</h2><button id="refresh" class="quiet">Atualizar lista</button></div><label class="sr-only" for="files">Arquivo capturado</label><select id="files"><option value="">Nenhuma captura</option></select><p id="capture-info" class="muted">As consultas usam a captura local, com a data indicada.</p><label class="sr-only" for="search">Buscar telas</label><input id="search" type="search" placeholder="Buscar uma tela pelo nome"><div class="list-heading"><span id="count">0 frames</span><button id="clear" class="quiet">Limpar seleção</button></div><div id="frames" class="frames"></div><button id="more" hidden>Carregar mais</button></section>
+    <section class="context"><div class="section-title"><h2>Usar no Codex</h2><span id="selected-count" class="badge">0 selecionadas</span></div><p>Selecione as telas. A skill consulta os detalhes quando precisar.</p><div class="actions"><button id="copy-request" class="primary" disabled>Copiar pedido para o Codex</button><button id="preview" disabled>Ver resumo</button></div><details id="preview-details" hidden><summary>Resumo da captura</summary><pre id="preview-output"></pre></details></section>
+  </main>
+  <footer><button id="reconnect" class="quiet">Reconectar leitor</button><a href="setup.html" target="_blank" rel="noopener">Ajuda para instalar</a><p>Beta para Mac · Dados no seu computador · Capturas podem ter detalhes parciais de bibliotecas.</p></footer>
+  <script type="module" src="panel.js"></script>
+</body></html>

@@ -1,0 +1,20 @@
+name: Sugestão / feature request
+description: Proponha uma melhoria a partir de um caso de uso.
+title: "[Idea]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Que problema você quer resolver? / problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Comportamento desejado / proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas e limites / alternatives and constraints

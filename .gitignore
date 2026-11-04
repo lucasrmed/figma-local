@@ -1,0 +1,11 @@
+node_modules/
+.cache/
+dist/
+.DS_Store
+.env
+.env.*
+*.fig
+*.figbin
+*.log
+browser-profile/
+auth-state*.json
