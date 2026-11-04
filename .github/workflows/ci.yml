@@ -40,6 +40,15 @@ jobs:
       - run: npm run audit
       - run: npm run check
       - run: npm test
+      - name: Prepare Chrome for Testing on Windows
+        if: matrix.os == 'windows-latest' && matrix.node == '24'
+        shell: pwsh
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP 'figma-local-chrome.zip'
+          $destination = Join-Path $env:RUNNER_TEMP 'figma-local-chrome'
+          Invoke-WebRequest -Uri 'https://storage.googleapis.com/chrome-for-testing-public/157.0.8103.38/win64/chrome-win64.zip' -OutFile $archive
+          Expand-Archive -LiteralPath $archive -DestinationPath $destination
+          "FIGMA_LOCAL_TEST_CHROME=$destination\chrome-win64\chrome.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
       - name: Windows native clipboard and installation
         if: matrix.os == 'windows-latest'
         run: node test/windows-smoke.mjs

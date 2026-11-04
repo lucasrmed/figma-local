@@ -10,6 +10,7 @@ import { clipboardHtml, clipboardChangeCount, closeClipboard, powershellPath } f
 import { encodeMessage } from '../native/protocol.mjs';
 import { windowsRegistryKeys } from '../scripts/install-platform.mjs';
 import { APP_ROOT, HOST_NAME } from '../platform.mjs';
+import { verifyWindowsBrowser } from './windows-browser.mjs';
 
 if (process.platform !== 'win32' || process.env.CI !== 'true') throw Error('Execute apenas na CI Windows descartável.');
 process.env.FIGMA_LOCAL_DEBUG_INSTALL = '1';
@@ -72,6 +73,7 @@ try {
   assert.equal(JSON.parse(execFileSync(process.execPath, [helper, 'status'], { env, encoding: 'utf8' })).installed, true);
   const fromSkill = JSON.parse(execFileSync(process.execPath, [helper, 'summary', 'https://www.figma.com/design/TESTFILE/?node-id=1-2'], { env, encoding: 'utf8' }));
   assert.deepEqual(fromSkill.items[0].text, ['Olá, ação ✓']);
+  if (process.env.FIGMA_LOCAL_TEST_CHROME) await verifyWindowsBrowser({ chrome: process.env.FIGMA_LOCAL_TEST_CHROME, extensionDir: installed.extensionDir, extensionId: config.extensionId, temp, params });
   console.log(JSON.stringify({ windows: true, installAndUpdate: true, registryHKCU: true, unicodeClipboard: true, freshness: true, batchNativeProtocol: true, skills: true }));
 } finally {
   host?.stdin.end(); host?.kill(); closeClipboard();

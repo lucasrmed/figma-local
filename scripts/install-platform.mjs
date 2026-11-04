@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync, lstatSync, mkdirSync, copyFileSync } from 'node:fs';
 import { powershellPath } from '../native/clipboard.mjs';
 
 const shellQuote = s => "'" + s.replaceAll("'", "'\\''") + "'";
@@ -8,6 +8,17 @@ const batchPath = s => {
   if (/[\r\n"]/u.test(s)) throw Error('O caminho de instalação contém caracteres não suportados.');
   return s.replaceAll('%', '%%');
 };
+
+export function copyDirectory(source, destination) {
+  mkdirSync(destination, { recursive: true });
+  for (const name of readdirSync(source)) {
+    const from = join(source, name), to = join(destination, name), stat = lstatSync(from);
+    if (stat.isSymbolicLink()) throw Error('Links simbólicos não são aceitos na instalação.');
+    if (stat.isDirectory()) copyDirectory(from, to);
+    else if (stat.isFile()) copyFileSync(from, to);
+    else throw Error('Tipo de arquivo não suportado na instalação.');
+  }
+}
 
 export function launcherText(paths, node, platform = process.platform) {
   if (platform === 'win32') return ['@echo off', 'chcp 65001 >nul', 'setlocal DisableDelayedExpansion',

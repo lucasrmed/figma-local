@@ -2,12 +2,12 @@
 import { parseArgs } from 'node:util';
 import { homedir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
-import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, cpSync, chmodSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, chmodSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { APP_ROOT, HOST_NAME, userPaths, extensionId } from '../platform.mjs';
 import { packageFiles } from './files.mjs';
-import { launcherText, installDependencies, windowsRegistryKeys, openGuide } from './install-platform.mjs';
+import { launcherText, installDependencies, windowsRegistryKeys, openGuide, copyDirectory } from './install-platform.mjs';
 const { values: flags } = parseArgs({ options: { home: { type: 'string' }, 'profile-dir': { type: 'string', multiple: true }, open: { type: 'boolean' }, 'migrate-cache': { type: 'boolean' } } });
 const escape = s => s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 const trace = stage => { if (process.env.FIGMA_LOCAL_DEBUG_INSTALL === '1') console.error('Figma Local: ' + stage); };
@@ -38,7 +38,7 @@ try {
     const { cachedFiles } = await import('../service.mjs');
     for (const f of cachedFiles(join(APP_ROOT, '.cache'))) {
       const destination = join(paths.cache, f.fileKey);
-      if (!existsSync(destination)) { cpSync(join(APP_ROOT, '.cache', f.fileKey), destination, { recursive: true }); migratedFiles++; }
+      if (!existsSync(destination)) { copyDirectory(join(APP_ROOT, '.cache', f.fileKey), destination); migratedFiles++; }
     }
   }
   const manifest = JSON.parse(readFileSync(join(paths.app, 'extension', 'manifest.json'), 'utf8'));
@@ -49,7 +49,7 @@ try {
     const destination = join(paths.skills, name);
     if (existsSync(destination) && !existsSync(join(destination, '.figma-local-managed.json'))) throw Error(`A skill ${name} já existe e não foi criada por este instalador.`);
     mkdirSync(destination, { recursive: true });
-    cpSync(join(paths.app, 'skills', name), destination, { recursive: true });
+    copyDirectory(join(paths.app, 'skills', name), destination);
     writeFileSync(join(destination, '.figma-local-managed.json'), JSON.stringify({ package: 'figma-local', version }), { mode: 0o600 });
   }
   const config = { package: 'figma-local', version, rootDir: paths.app, cacheDir: paths.cache, extensionId: id, installedAt: new Date().toISOString() };
