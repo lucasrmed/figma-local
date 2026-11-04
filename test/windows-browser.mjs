@@ -7,7 +7,7 @@ import { join } from 'node:path';
 export async function verifyWindowsBrowser({ chrome, extensionDir, extensionId, temp, params }) {
   const profile = join(temp, 'chrome-test-profile');
   const browser = spawn(chrome, ['--headless=new', '--no-first-run', '--no-default-browser-check', '--remote-debugging-port=0',
-    `--user-data-dir=${profile}`, `--disable-extensions-except=${extensionDir}`, `--load-extension=${extensionDir}`, `chrome-extension://${extensionId}/panel.html`], { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
+    `--user-data-dir=${profile}`, `--disable-extensions-except=${extensionDir}`, `--load-extension=${extensionDir}`, 'about:blank'], { windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'] });
   let socket, diagnostics = '';
   browser.stderr.on('data', data => { diagnostics = (diagnostics + data.toString()).slice(-4000); });
   browser.on('error', error => { diagnostics += error.message; });
@@ -16,13 +16,14 @@ export async function verifyWindowsBrowser({ chrome, extensionDir, extensionId, 
     const portFile = join(profile, 'DevToolsActivePort'), deadline = Date.now() + 45000;
     while (!existsSync(portFile)) { if (Date.now() >= deadline) throw Error('Chrome startup: ' + diagnostics); await pause(); }
     const port = readFileSync(portFile, 'utf8').split('\n')[0];
-    let page;
-    while (!page) {
+    let worker;
+    while (!worker) {
       const pages = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json();
-      page = pages.find(p => p.type === 'page' && p.url === `chrome-extension://${extensionId}/panel.html`);
-      if (Date.now() >= deadline) throw Error('Extension panel did not open: ' + JSON.stringify(pages));
-      if (!page) await pause();
+      worker = pages.find(p => p.type === 'service_worker' && p.url.startsWith(`chrome-extension://${extensionId}/`));
+      if (Date.now() >= deadline) throw Error('Extension worker did not load: ' + JSON.stringify(pages) + '\n' + diagnostics);
+      if (!worker) await pause();
     }
+    const page = await (await fetch(`http://127.0.0.1:${port}/json/new?${encodeURIComponent(`chrome-extension://${extensionId}/panel.html`)}`, { method: 'PUT' })).json();
     socket = new WebSocket(page.webSocketDebuggerUrl);
     await new Promise((resolve, reject) => { socket.addEventListener('open', resolve, { once: true }); socket.addEventListener('error', reject, { once: true }); });
     let serial = 0;
