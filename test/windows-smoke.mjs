@@ -69,6 +69,8 @@ try {
   assert.deepEqual(summary.items[0].text, ['Olá, ação ✓']);
   await assert.rejects(request('import_clipboard', { ...params, token: ticket.token }), /expirou/);
   const env = { ...process.env, FIGMA_LOCAL_CONFIG: join(base, 'install.json') };
+  const imported = JSON.parse(execFileSync(process.execPath, [join(config.rootDir, 'reader.mjs'), 'import', '--url', params.url, '--scope', 'selection'], { env, encoding: 'utf8', timeout: 30000 }));
+  assert.equal(imported.frameCandidates, 2);
   const helper = join(home, '.codex', 'skills', 'figma-local', 'scripts', 'reader.mjs');
   assert.equal(JSON.parse(execFileSync(process.execPath, [helper, 'status'], { env, encoding: 'utf8' })).installed, true);
   const fromSkill = JSON.parse(execFileSync(process.execPath, [helper, 'summary', 'https://www.figma.com/design/TESTFILE/?node-id=1-2'], { env, encoding: 'utf8' }));

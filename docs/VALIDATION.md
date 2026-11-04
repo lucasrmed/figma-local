@@ -46,6 +46,8 @@ Depois da mudança, os sete testes passaram e `npm audit --omit=dev` reportou ze
 
 ## Windows na beta 0.3.0
 
+A [CI da implementação Windows](https://github.com/lucasrmed/figma-local/actions/runs/41763792695) passou em todos os cinco ambientes: Node 22/24 no Windows e Mac, mais Node 22 no Linux. No Windows, o Chrome for Testing 157.0.8103.38 carregou a extensão, encontrou o registro nativo, importou o clipboard real com dados sintéticos e consultou resumos com acentos preservados. Isso valida a integração com o navegador; o login e a captura no Figma do Windows permanecem como teste manual da beta.
+
 A suíte atual contém dez testes, incluindo os escopos/tickets com adaptadores assíncronos para Mac e Windows, pastas de instalação e empacotamento. A CI adiciona Node 22/24 em Windows x64, mantendo Mac e testes do parser no Linux.
 
 O teste de integração do Windows usa uma VM descartável e grava uma cópia sintética no clipboard real, com o mesmo formato `HTML Format` e binário de fixture do leitor. Ele verifica instalação e atualização com preservação do cache, caminhos com espaços/apóstrofo/acentos/`&`/`%`/`!`, registro HKCU, launcher batch, prefixo binário de mensagens, UTF-8, ticket de nova cópia, expiração por uso e consulta pela skill instalada. O teste é separado de `npm test` para não alterar clipboard/registro na máquina de quem desenvolve.
