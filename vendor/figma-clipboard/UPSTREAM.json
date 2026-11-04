@@ -1,0 +1,13 @@
+{
+  "package": "figma-clipboard-mcp",
+  "version": "0.2.0",
+  "repository": "https://github.com/georg3103/figma-clipboard-mcp",
+  "commit": "72607e2c3bdd53d40ecede07aa972163c769125f",
+  "license": "MIT",
+  "files": {
+    "figparse.js": "20168429da4b15b118dee3fc71a591292661f1f6971e8ebb0f684c36446e2622",
+    "scene.js": "b7ce53d89ba398e6c6660bb106405ac63290bdb3060912ee20d13f4a7fe5c1dd",
+    "style.js": "54c9a01e464f573e2fef8bbc51f3e7f92da79d5e471d2a0b8f6ef28433302da0"
+  },
+  "modifications": "None. Only the three decoding/style modules are included; the MCP server is not bundled."
+}

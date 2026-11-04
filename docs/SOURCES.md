@@ -1,6 +1,6 @@
 # Documentação consultada
 
-Acesso: **03/11/2026**. Runtime de validação: Node.js **23.11.0**, agent-browser **0.27.0**, Chrome for Testing **151**. Dependência direta: **figma-clipboard-mcp 0.2.0**, versões transitivas fixadas em `package-lock.json`. A extensão exige Chrome 116+; a captura desta versão atende macOS. A distribuição exige Node.js 22+ e recomenda uma versão LTS mantida; o runtime existente de teste não foi atualizado globalmente.
+Acesso: **03/11/2026**. Runtime de validação: Node.js **23.11.0**, agent-browser **0.27.0**, Chrome for Testing **151**. Decoder MIT derivado de **figma-clipboard-mcp 0.2.0**, preservado em `vendor/figma-clipboard`. Dependências diretas: **fzstd 0.1.1** e **kiwi-schema 0.5.0**, fixadas no lockfile. A extensão exige Chrome 116+; a captura desta versão atende macOS. A distribuição exige Node.js 22+ e recomenda uma versão LTS mantida; o runtime existente de teste não foi atualizado globalmente.
 
 | Fonte de primeira parte | Decisão ou limite apoiado |
 | --- | --- |
@@ -44,3 +44,9 @@ Acesso: **03/11/2026**. Runtime de validação: Node.js **23.11.0**, agent-brows
 | [GitHub: relatos privados](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/configure-for-a-repository) | Canal privado para relatos de segurança. |
 
 Plataformas desta etapa: Git/GitHub, GitHub CLI 2.102.0, Actions e npm. O protocolo de captura e as dependências do leitor foram preservados. As versões/SHA das Actions foram verificadas nas releases oficiais e na API do GitHub.
+
+## Dependências da distribuição pública
+
+A auditoria encontrou [GHSA-mrhx-c7xc-m3w5](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5) em Zod, trazido pelo pacote do servidor MCP. O produto usa somente três módulos de leitura/estilo desse pacote. Esses arquivos foram preservados sem alterações sob MIT, com origem e hashes registrados, e o servidor/dependências não utilizados foram removidos. Isso evita forçar uma migração major de Zod em uma biblioteca que nem participa da leitura.
+
+Foram consultados os repositórios dos autores: [fzstd](https://github.com/101arrowz/fzstd), 0.1.1, e [Kiwi](https://github.com/evanw/kiwi), pacote kiwi-schema 0.5.0. Mantemos os mesmos decodificadores e interfaces já usados; as consultas reais foram comparadas com a versão anterior.

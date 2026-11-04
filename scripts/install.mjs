@@ -23,7 +23,7 @@ try {
   writeFileSync(marker, JSON.stringify({ package: 'figma-local', version: '0.2.0' }), { mode: 0o600 });
   const lockHash = createHash('sha256').update(readFileSync(join(paths.app, 'package-lock.json'))).digest('hex');
   let previousHash; try { previousHash = readFileSync(join(paths.app, '.installed-lock'), 'utf8'); } catch {}
-  if (previousHash !== lockHash || !existsSync(join(paths.app, 'node_modules', 'figma-clipboard-mcp'))) {
+  if (previousHash !== lockHash || !existsSync(join(paths.app, 'node_modules', 'fzstd')) || !existsSync(join(paths.app, 'node_modules', 'kiwi-schema'))) {
     execFileSync('npm', ['ci', '--ignore-scripts', '--no-audit', '--no-fund'], { cwd: paths.app, stdio: ['ignore', 'pipe', 'pipe'], timeout: 120000 });
     writeFileSync(join(paths.app, '.installed-lock'), lockHash, { mode: 0o600 });
   }

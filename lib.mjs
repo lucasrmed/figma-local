@@ -2,8 +2,8 @@ import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, readdirSync, renameSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { parseFigBuffer } from 'figma-clipboard-mcp/src/lib/figparse.js';
-import { buildScene, key, listFrames, nodeStyles, layerTree, componentTree } from 'figma-clipboard-mcp/src/lib/scene.js';
+import { parseFigBuffer } from './vendor/figma-clipboard/figparse.js';
+import { buildScene, key, listFrames, nodeStyles, layerTree, componentTree } from './vendor/figma-clipboard/scene.js';
 
 export function parseLink(input) {
   const u = new URL(input);

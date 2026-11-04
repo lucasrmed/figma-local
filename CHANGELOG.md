@@ -9,6 +9,7 @@ Primeira beta pública para macOS.
 - Captura de seleção/página e importação manual pelo clipboard.
 - Índices, resumos e consultas por nó com limites e paginação.
 - Skills `figma-local` e `figma-local-setup` e instalador no perfil do usuário.
+- Decoder MIT isolado das dependências não utilizadas do servidor MCP.
 - Pacote distribuível com verificação de integridade e exclusão de dados locais.
 - Documentação em português e inglês, guia de contribuição e templates de issues.
 

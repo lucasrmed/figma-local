@@ -9,7 +9,7 @@ O Figma Local não possui servidor remoto, conta própria, analytics ou telemetr
 - Nome do arquivo, IDs de nós, textos, propriedades, referências e outros dados presentes nessa cópia.
 - Caminhos locais e data de importação para localizar e identificar capturas.
 
-A captura substitui o conteúdo da área de transferência. O leitor não solicita senha, token Figma, cookies ou perfil do navegador. A biblioteca decodificadora tem MCP no nome, mas seu servidor MCP não é iniciado pelo projeto.
+A captura substitui o conteúdo da área de transferência. O leitor não solicita senha, token Figma, cookies ou perfil do navegador. O leitor inclui módulos MIT de decodificação e não instala nem inicia um servidor MCP.
 
 ## Onde ficam os dados
 

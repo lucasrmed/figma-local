@@ -37,3 +37,9 @@ Na preparação do GitHub, sete testes passaram, incluindo uma verificação que
 O ZIP público foi extraído e instalado em um perfil local isolado com caminho contendo espaços e apóstrofo. A skill encontrou a instalação, o host nativo respondeu ao ping e as verificações do aplicativo instalado passaram. O arquivo SHA256SUMS acompanha o pacote. A integração de captura permaneceu a mesma da validação real descrita acima.
 
 A CI foi configurada para Node 22/24 em macOS e Node 22 em Linux; o resultado remoto deve ser consultado na aba Actions. Testes do parser no Linux não significam suporte à captura nesse sistema.
+
+## Redução das dependências antes da publicação
+
+A auditoria sinalizou Zod na cadeia do pacote do servidor MCP, que não é iniciado pelo produto. Os três módulos MIT de decodificação/estilo foram preservados sem alterações em `vendor/figma-clipboard`; a origem e os hashes estão registrados ali. O pacote do servidor foi retirado e restaram somente fzstd 0.1.1 e kiwi-schema 0.5.0.
+
+Depois da mudança, os sete testes passaram e `npm audit --omit=dev` reportou zero vulnerabilidades conhecidas na consulta de preparação da release. Consultas reais de nó, árvore e componentes foram comparadas com a versão anterior e retornaram resultados idênticos, sem copiar os dados do design para o repositório. O pacote atualizado também passou pela verificação de conteúdo e checksum.

@@ -10,10 +10,12 @@
     "test": "node --test test/*.test.mjs",
     "package": "node scripts/package.mjs",
     "check": "node scripts/check.mjs",
-    "verify-package": "node scripts/verify-package.mjs"
+    "verify-package": "node scripts/verify-package.mjs",
+    "audit": "npm audit --omit=dev"
   },
   "dependencies": {
-    "figma-clipboard-mcp": "0.2.0"
+    "fzstd": "0.1.1",
+    "kiwi-schema": "0.5.0"
   },
   "description": "Read many Figma screens through local clipboard captures, a Chrome extension and Codex skills.",
   "license": "MIT",
