@@ -12,6 +12,7 @@ import { windowsRegistryKeys } from '../scripts/install-platform.mjs';
 import { APP_ROOT, HOST_NAME } from '../platform.mjs';
 
 if (process.platform !== 'win32' || process.env.CI !== 'true') throw Error('Execute apenas na CI Windows descartável.');
+process.env.FIGMA_LOCAL_DEBUG_INSTALL = '1';
 const temp = mkdtempSync(join(tmpdir(), 'figma-local-windows-'));
 const home = join(temp, "D'Ávila & 50%! teste");
 let host;
@@ -20,7 +21,7 @@ const clipboardPath = join(temp, 'clipboard.html');
 process.env.FIGMA_LOCAL_TEST_HTML = clipboardPath;
 function copy(html) {
   writeFileSync(clipboardPath, html);
-  ps(`Add-Type -AssemblyName System.Windows.Forms; $data = New-Object System.Windows.Forms.DataObject; $data.SetData('HTML Format', [IO.File]::ReadAllText($env:FIGMA_LOCAL_TEST_HTML)); [System.Windows.Forms.Clipboard]::SetDataObject($data, $true, 10, 100)`);
+  ps(`$ProgressPreference = 'SilentlyContinue'; Add-Type -AssemblyName System.Windows.Forms; $data = New-Object System.Windows.Forms.DataObject; $bytes = [Text.Encoding]::UTF8.GetBytes([IO.File]::ReadAllText($env:FIGMA_LOCAL_TEST_HTML)); $stream = New-Object IO.MemoryStream(,$bytes); $data.SetData('HTML Format', $false, $stream); [System.Windows.Forms.Clipboard]::SetDataObject($data, $true, 10, 100)`);
 }
 try {
   mkdirSync(home);
@@ -36,7 +37,8 @@ try {
   const cfHtml = `Version:1.0\r\nStartHTML:-1\r\nEndHTML:-1\r\nStartFragment:0000000000\r\nEndFragment:0000000000\r\n<html><!--StartFragment--><p>Olá, ação ✓</p>${fixture.html}<!--EndFragment--></html>`;
   copy(cfHtml);
   const before = await clipboardChangeCount();
-  assert.ok((await clipboardHtml()).includes('Olá, ação ✓'));
+  const read = await clipboardHtml();
+  assert.ok(read.includes('Olá, ação ✓'), 'UTF-8 clipboard prefix: ' + JSON.stringify(read.slice(0, 240)));
   copy(cfHtml);
   assert.notEqual(await clipboardChangeCount(), before);
   const launcher = join(base, 'native-launcher.cmd');
