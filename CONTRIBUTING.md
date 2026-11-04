@@ -39,11 +39,13 @@ Para sincronizar o fork, use o recurso **Sync fork** do GitHub ou configure `htt
 
 ## Instalar sua versão para testar
 
-No macOS, `node scripts/install.mjs --open` instala sua cópia no perfil do usuário. Depois recarregue a extensão e a aba do Figma. Essa instalação pode substituir outra instalação gerenciada do Figma Local, preservando o cache. Para um teste isolado do instalador, use `--home 'PASTA_TEMPORARIA'`; não use a pasta de outra pessoa.
+No Mac ou Windows, `node scripts/install.mjs --open` instala sua cópia no perfil do usuário. Depois recarregue a extensão e a aba do Figma. Essa instalação pode substituir outra instalação gerenciada do Figma Local, preservando o cache. No Mac, para um teste isolado do instalador, use `--home 'PASTA_TEMPORARIA'`; não use a pasta de outra pessoa.
+
+A criação/verificação dos ZIPs usa Python 3 no ambiente de desenvolvimento/CI; quem instala a release precisa apenas do Node.js e do Chrome. `npm run package -- --target windows` ou `--target macos` permite escolher o pacote.
 
 ## Antes de mudanças maiores
 
-Abra uma proposta explicando o caso de uso, o limite atual e o comportamento desejado. O [roadmap](docs/ROADMAP.md) mostra ideias, não promessas de prazo. Suporte a outro sistema operacional precisa de evidência de captura real; testes do parser sozinhos não validam a integração.
+Abra uma proposta explicando o caso de uso, o limite atual e o comportamento desejado. O [roadmap](docs/ROADMAP.md) mostra ideias, não promessas de prazo. Suporte a outro sistema operacional precisa de testes reais do clipboard, instalação e comunicação do navegador; testes do parser sozinhos não validam a integração. Registre separadamente a captura no Figma autenticado. `test/windows-smoke.mjs` altera clipboard e registros HKCU: é reservado às VMs descartáveis da CI, não ao computador de uso diário.
 
 ## Licença e convivência
 

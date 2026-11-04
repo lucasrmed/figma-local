@@ -42,6 +42,11 @@ export async function verifyWindowsBrowser({ chrome, extensionDir, extensionId, 
       if (result.exceptionDetails) throw Error(JSON.stringify(result.exceptionDetails));
       return result.result.value;
     };
+    const readyDeadline = Date.now() + 10000;
+    while (!await evaluate('Boolean(globalThis.chrome?.runtime?.sendMessage)')) {
+      if (Date.now() >= readyDeadline) throw Error('Extension did not initialize: ' + JSON.stringify(await evaluate('({url:location.href,title:document.title,text:document.body?.innerText?.slice(0,1500)})')) + '\n' + diagnostics);
+      await pause();
+    }
     const rpc = message => evaluate(`new Promise(resolve => chrome.runtime.sendMessage(${JSON.stringify(message)}, resolve))`);
     const ping = await rpc({ action: 'ping' });
     assert.equal(ping.ok, true, JSON.stringify(ping)); assert.equal(ping.result.platform, 'win32');

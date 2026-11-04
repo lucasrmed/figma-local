@@ -6,7 +6,7 @@ Data: 03/11/2026. Resultados locais, sem garantia de desempenho em outros arquiv
 
 Uma página real já aberta no Figma produziu 286 objetos copiados, 191 frames candidatos e 13.402 registros. A captura e importação levaram 4,92–5,92 s. Consultas com índices pré-calculados levaram aproximadamente 58 ms: 10 frames em 1.746 caracteres ou resumos de três frames em 3.507 caracteres. Esses tempos excluem abrir o arquivo e autenticar. Uma consulta posterior pelo helper da skill instalada retornou 10 dos 191 frames em 129 ms e 1.746 caracteres, com paginação; esse tempo inclui iniciar o helper e o leitor. Identificadores e conteúdo do arquivo privado não fazem parte do pacote distribuído.
 
-Os testes usam um binário sintético e cobrem normalização de links, origem da cópia, separação por ID, limite de escopo, múltiplas capturas, paginação, JSON limitado, importação validada e protocolo nativo fragmentado/UTF-8. Os seis testes passaram. As duas skills passaram pelo validador da ferramenta de criação de skills. Todos os arquivos JavaScript passaram pela verificação de sintaxe.
+Os testes usam um binário sintético e cobrem normalização de links, origem da cópia, separação por ID, limite de escopo, múltiplas capturas, paginação, JSON limitado, importação validada e protocolo nativo fragmentado/UTF-8. Os testes descritos nesta primeira etapa passaram. As duas skills passaram pelo validador da ferramenta de criação de skills. Todos os arquivos JavaScript passaram pela verificação de sintaxe.
 
 ## Instalação e extensão
 
@@ -28,7 +28,7 @@ O comportamento em versões anteriores do Chrome, em outros computadores e com t
 
 ## Limitações conhecidas
 
-Formato interno do Figma sem contrato público. Captura macOS; Windows/Linux ainda não implementados. Interiores remotos, imagens, interações e medidas calculadas podem faltar. Mudanças de idioma/interface podem exigir ajuste do acionamento de Copiar; a importação manual continua disponível. Não há publicação em loja, assinatura/notarização de aplicativo ou atualização automática. Instalação exige Node.js e acesso ao npm.
+Formato interno do Figma sem contrato público. Captura no Mac e Windows (Windows adicionado na 0.3.0); Linux não implementado. Interiores remotos, imagens, interações e medidas calculadas podem faltar. Mudanças de idioma/interface podem exigir ajuste do acionamento de Copiar; a importação manual continua disponível. Não há publicação em loja, assinatura/notarização de aplicativo ou atualização automática. Instalação exige Node.js e acesso ao npm.
 
 ## Preparação da primeira release pública
 
@@ -43,3 +43,15 @@ A CI foi configurada para Node 22/24 em macOS e Node 22 em Linux; o resultado re
 A auditoria sinalizou Zod na cadeia do pacote do servidor MCP, que não é iniciado pelo produto. Os três módulos MIT de decodificação/estilo foram preservados sem alterações em `vendor/figma-clipboard`; a origem e os hashes estão registrados ali. O pacote do servidor foi retirado e restaram somente fzstd 0.1.1 e kiwi-schema 0.5.0.
 
 Depois da mudança, os sete testes passaram e `npm audit --omit=dev` reportou zero vulnerabilidades conhecidas na consulta de preparação da release. Consultas reais de nó, árvore e componentes foram comparadas com a versão anterior e retornaram resultados idênticos, sem copiar os dados do design para o repositório. O pacote atualizado também passou pela verificação de conteúdo e checksum.
+
+## Windows na beta 0.3.0
+
+A suíte atual contém dez testes, incluindo os escopos/tickets com adaptadores assíncronos para Mac e Windows, pastas de instalação e empacotamento. A CI adiciona Node 22/24 em Windows x64, mantendo Mac e testes do parser no Linux.
+
+O teste de integração do Windows usa uma VM descartável e grava uma cópia sintética no clipboard real, com o mesmo formato `HTML Format` e binário de fixture do leitor. Ele verifica instalação e atualização com preservação do cache, caminhos com espaços/apóstrofo/acentos/`&`/`%`/`!`, registro HKCU, launcher batch, prefixo binário de mensagens, UTF-8, ticket de nova cópia, expiração por uso e consulta pela skill instalada. O teste é separado de `npm test` para não alterar clipboard/registro na máquina de quem desenvolve.
+
+O teste de Chrome for Testing no Windows abre um perfil temporário com a extensão instalada, usa a descoberta real do host pelo navegador e consulta/importa os dados sintéticos pela extensão. A captura no editor Figma autenticado do Windows permanece pendente de teste manual; os resultados do Mac acima não são apresentados como teste visual do Windows.
+
+A primeira rodada identificou uma falha do `cpSync` recursivo no runtime Node 22 do Windows durante a cópia das skills. O instalador passou a copiar explicitamente diretórios/arquivos e recusa symlinks. A leitura de CF_HTML usa bytes UTF-8 diretamente, preservando os comentários de dados do Figma.
+
+A instalação atual também foi conferida no Mac em perfil temporário com acentos, espaço e apóstrofo, incluindo helper da skill, ping pelo launcher e verificações no aplicativo instalado. A auditoria npm não encontrou vulnerabilidades conhecidas na consulta desta etapa. Os ZIPs usam lista explícita de arquivos, checksum e modos portáveis; não incluem dados do design ou perfil do navegador.
